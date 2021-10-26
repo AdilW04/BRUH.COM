@@ -1,0 +1,7 @@
+---APOSTROPHE CATASTROPHE-----
+problem: for some reason, question="what isn't the worst subject" answer="not computer science" did not get added to the database
+investigation:narrowed it down to apostrophe causing issues
+added apostrophe manually to myswl database
+noticed in the command, it prefaced any apostrophe with a backslash (screenshot)
+etc
+solution:had it search for apostrophe and add a backslash
