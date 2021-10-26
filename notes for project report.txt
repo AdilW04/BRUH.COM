@@ -1,4 +1,4 @@
----APOSTROPHE CATASTROPHE-----
+-----APOSTROPHE CATASTROPHE-----
 problem: for some reason, question="what isn't the worst subject" answer="not computer science" did not get added to the database
 investigation:narrowed it down to apostrophe causing issues
 added apostrophe manually to myswl database
