@@ -8,7 +8,7 @@ button{
 }
 th,td{
     outline-style:solid;
-    outline-color:black;
+    outline-color:whitesmoke;
     padding-left:10px;
     padding-right:10px;
     padding-top:2px;
@@ -17,5 +17,18 @@ th,td{
 }
 input{
     font-family:"Comic Sans MS";
+}
+body{
+    margin:0;
+    color:whitesmoke;
+    background: #272f3b;
+}
+a{
+    color:whitesmoke;
+}
+.home
+{
+    text-decoration:none ;
+
 }
 

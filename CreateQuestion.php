@@ -4,10 +4,19 @@
     <meta charset="UTF-8">
     <title>F-encore: create</title>
     <link href="StyleSheet.css" rel="stylesheet" type="text/css" />
+    <!--    google font stuff-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Varela Round', sans-serif;
+        }
+    </style>
 </head>
 <body>
     <script src="Question.js"></script>
-    <a href="Index.html"><h1>F-Encore</h1></a>
+    <a href="Index.html", class="home"><h1 class="home">F-Encore</h1></a>
     <div>
         <div>
             <br>

@@ -4,11 +4,22 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="StyleSheet.css", type="text/css"/>
+    <!--    google font stuff-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Varela Round', sans-serif;
+        }
+
+    </style>
 </head>
 <body>
 <script src="FadeAway.js"></script>
-<a href="Index.html"><h1>F-Encore</h1></a>
+<a href="Index.html", class="home"><h1 class="home">F-Encore</h1></a>
 <div class="center">
+
     <?php
     function Answer($chosenQuestion)//chosen question ranging from index 1 to the num_rows (integer) eg: if chosen question=1, will pick the one with index 0
     {
