@@ -5,3 +5,5 @@ added apostrophe manually to myswl database
 noticed in the command, it prefaced any apostrophe with a backslash (screenshot)
 etc
 solution:had it search for apostrophe and add a backslash
+
+----QUESTION SOMETIMES DISAPPEARS IN ANSWERING SYSTEM----
