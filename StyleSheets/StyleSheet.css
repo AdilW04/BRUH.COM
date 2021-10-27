@@ -1,0 +1,99 @@
+.center{
+    display:grid;
+    place-items:center;
+}
+button{
+    padding: 6px 35px;
+
+}
+th,td{
+    outline-style:solid;
+    outline-color:whitesmoke;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:2px;
+    padding-bottom:2px;
+    font-family: "Comic Sans MS";
+}
+input{
+    font-family:"Comic Sans MS";
+}
+body{
+    margin:0;
+    color:whitesmoke;
+    background: #272f3b;
+    font-size:150%;
+}
+a{
+    color:whitesmoke;
+    text-decoration: none;
+}
+
+h2
+{
+    font-size:90%;
+}
+.home
+{
+    text-decoration:none ;
+
+}
+section
+{
+    position: relative;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    min-height: 300px;
+    padding: 100px 20vw;
+}
+.blue
+{
+    background: #377edb;
+}
+.orange
+{
+    background: rgb(220, 147, 34);
+}
+.red
+{
+    background: #b43d3d;
+}
+/* code for wave*/
+.wave-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+.wave-top svg {
+    position: relative;
+    display: block;
+    width: calc(123% + 1.3px);
+    height: 215px;
+}
+
+.wave-top .shape-fill {
+    fill: #272F3B;
+}
+.wave-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.wave-bottom svg {
+    position: relative;
+    display: block;
+    width: calc(105% + 1.3px);
+    height: 61px;
+}
+
+.wave-bottom .shape-fill {
+    fill: #272F3B;
+}
