@@ -47,6 +47,12 @@ section
     min-height: 300px;
     padding: 100px 20vw;
 }
+#signIn{
+    position: absolute;
+    top:0px;
+    right:25px;
+    margin-top:16px;
+}
 .blue
 {
     background: #377edb;
@@ -96,4 +102,9 @@ section
 
 .wave-bottom .shape-fill {
     fill: #272F3B;
+}
+form{
+    border-style: solid;
+    border-color: whitesmoke;
+    padding:8px;
 }
