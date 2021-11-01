@@ -19,8 +19,10 @@
 
 </head>
 <body>
+<script src="../Scripts/Redirect.js"></script>
+<script src="../Scripts/Clear.js"></script>
 <a href="Index.html", class="home"><h1 class="home">Bruh.com</h1></a>
-<div class="center">
+<div class="center", id="body">
     <h1> We're happy you're here!</h1>
     <h2> Now join us or else >:)</h2>
     <br>
@@ -28,9 +30,9 @@
         <form method="post">
             <input name="username"> <-Username</input>
             <br><br>
-            <input name="password"> <-Password</input>
+            <input type="password" name="password"> <-Password</input>
             <br>
-            <input name="passwordconf"> <-Confirm Password</input>
+            <input type="password" name="passwordconf"> <-Confirm Password</input>
             <br><br>
             <input name="email"> <-Email</input>
             <br>
@@ -40,6 +42,8 @@
                 <input name="submit" type="submit"></input>
             </div>
         </form>
+    </div>
+</div>
         <?php
             $conn=new mysqli("localhost","root");
 
@@ -50,7 +54,6 @@
                 $emailtaken=false;
                 $usernametaken=false;
                 if (filter_var($_POST["email"],FILTER_VALIDATE_EMAIL)==true and checkdnsrr(substr($_POST["email"],strpos($_POST["email"],"@")+1))==true) {
-                    echo "email is valid";
                     for ($i = 0; $i < $result->num_rows; $i++) {
                         $assoc = $result->fetch_assoc();
                         //echo($assoc["Username"]);
@@ -66,9 +69,10 @@
                     }
                     if ($usernametaken == false and $emailtaken == false) {
                         if ($_POST["password"] == $_POST["passwordconf"] and $_POST["email"] == $_POST["emailconf"]) {
-                            echo "Welcome to the gang " . $_POST["username"] . "!";
-
+                            echo "<script> clear()</script>";
+                            echo "<div class='center'><h1>Welcome to the gang " . $_POST["username"] . "!</h1></div>";
                             $conn->query("INSERT INTO questionsdb.users(ID,Username,Password,Email) values(" . $result->num_rows . ",'" . $_POST["username"] . "','" . $_POST["password"] . "','" . $_POST["email"] . "')");
+                            echo "<script>redirect()</script>";
                         } else {
                             echo "password or email does not match";
                         }
@@ -83,8 +87,5 @@
             }
         ?>
 
-
-    </div>
-</div>
 </body>
 </html>
