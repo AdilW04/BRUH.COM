@@ -36,7 +36,7 @@ h2
 .home
 {
     text-decoration:none ;
-
+    margin:0;
 }
 section
 {
@@ -64,6 +64,12 @@ section
 .red
 {
     background: #b43d3d;
+}
+.underline{
+    text-decoration: underline;
+}
+#new{
+    font-size:75%;
 }
 /* code for wave*/
 .wave-top {
