@@ -19,6 +19,7 @@
 
 </head>
 <body>
+<a href="Index.html", class="home"><h1 class="home">Bruh.com</h1></a>
 <div class="center">
     <h1> We're happy you're here!</h1>
     <h2> Now join us or else >:)</h2>
