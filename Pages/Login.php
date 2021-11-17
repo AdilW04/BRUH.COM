@@ -40,7 +40,7 @@
         $success=false;
         $username="";
         $conn = new mysqli("localhost", "root");
-        $result = $conn->query("SELECT Username, Email, Password FROM questionsdb.users");
+        $result = $conn->query("SELECT ID,Username, Email, Password FROM questionsdb.users");
         $conn->close();
         foreach ($result as $i) {
             if (($_POST["username"] == $i["Username"] or $_POST["username"] == $i["Email"]) and $_POST["password"] == $i["Password"]) {
@@ -54,7 +54,42 @@
         }
         if ($success)
         {
+            //list of user objects variables (records fields)
+            //$userattr=[];
             echo "welcome back ". $username."!";
+
+            foreach($result as $i)
+            {
+                echo $i["Username"];
+                if ($i["Username"]==$username)
+                {
+                    echo
+                    "<script>
+                        class User
+                        {
+                            constructor(id,username)
+                            {
+                                this.id=id;
+                                this.username=username;
+                                //this.password=password;
+                                //this.email=email;
+                            }
+                            SayName()
+                            {
+                                console.log(this.username);
+                            }
+                        }
+                        //let user=new User(".$i['ID'].",".$i['Username'].");
+                          //let user=new User(1,'bruh');
+                          //user.SayName();
+                        
+                
+                    </script>";
+
+//
+                }
+
+            }
 
         }
         else{
