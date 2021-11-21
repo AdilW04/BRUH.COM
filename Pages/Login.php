@@ -60,7 +60,6 @@
 
             foreach($result as $i)
             {
-                echo $i["Username"];
                 if ($i["Username"]==$username)
                 {
                     echo
@@ -79,9 +78,10 @@
                                 console.log(this.username);
                             }
                         }
+                        console.log(".$i['ID'].",".$i['Username'].")
                         //let user=new User(".$i['ID'].",".$i['Username'].");
-                          //let user=new User(1,'bruh');
-                          //user.SayName();
+                          let user=new User(1,'bruh');
+                          user.SayName();
                         
                 
                     </script>";
