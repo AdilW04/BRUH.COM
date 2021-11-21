@@ -25,7 +25,7 @@
         </div>
         <div class="center">
             <br>
-            <form method="post">
+            <form method="post",autocomplete="off">
                 <input type=text id="question" name="question"> < Question </input>
                 <input type=text id="answer" name="answer" > < Answer </input>
                 <input type="submit" name="submit" value="next">

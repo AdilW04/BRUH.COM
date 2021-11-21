@@ -1,3 +1,4 @@
+<?php session_start()?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,29 +62,30 @@
             foreach($result as $i)
             {
                 if ($i["Username"]==$username)
+
                 {
+                    //echo"bruh".$i["Username"]."yh";
                     echo
                     "<script>
                         class User
                         {
-                            constructor(id,username)
+                            constructor(id,username,password,email)
                             {
                                 this.id=id;
                                 this.username=username;
-                                //this.password=password;
-                                //this.email=email;
+                                this.password=password;
+                                this.email=email;
                             }
-                            SayName()
-                            {
-                                console.log(this.username);
-                            }
+//                            SayName()
+//                            {
+//                                //console.log(this.username);
+//                                console.log(this.username,this.id,this.password,this.email);
+//                            }
                         }
-                        console.log(".$i['ID'].",".$i['Username'].")
-                        //let user=new User(".$i['ID'].",".$i['Username'].");
-                          let user=new User(1,'bruh');
-                          user.SayName();
+
+                        let user=new User(".$i['ID'].",'".$i['Username']."','".$i['Password']."','".$i['Email']."');
+                        let userString=JSON.stringify(user);
                         
-                
                     </script>";
 
 //
