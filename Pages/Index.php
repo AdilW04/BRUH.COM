@@ -1,3 +1,4 @@
+<?php session_start()?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,9 @@
     </style>
 </head>
 <body>
+<?php
+echo $_SESSION["user"];
+?>
 <section class="blue">
     <div>
         <a href="Login.php"><h1 id="signIn">Sign in</h1></a>

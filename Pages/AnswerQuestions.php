@@ -18,7 +18,7 @@
 <body>
 <script src="../Scripts/FadeAway.js"></script>
 <script src="../Scripts/CheckAnswer.js"></script>
-<a href="Index.html", class="home"><h1 class="home">Bruh.com</h1></a>
+<a href="Index.php" , class="home"><h1 class="home">Bruh.com</h1></a>
 <div class="center">
     <?php
     function GetAnswer($chosenQuestion)//chosen question ranging from index 1 to the num_rows (integer) eg: if chosen question=1, will pick the one with index 0

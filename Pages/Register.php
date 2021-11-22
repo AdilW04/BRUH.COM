@@ -21,7 +21,7 @@
 <body>
 <script src="../Scripts/Redirect.js"></script>
 <script src="../Scripts/Clear.js"></script>
-<a href="Index.html", class="home"><h1 class="home">Bruh.com</h1></a>
+<a href="Index.php" , class="home"><h1 class="home">Bruh.com</h1></a>
 <div class="center", id="body">
     <h1> We're happy you're here!</h1>
     <h2> Now join us or else >:)</h2>

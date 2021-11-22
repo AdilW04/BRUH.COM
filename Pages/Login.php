@@ -19,7 +19,7 @@
     <!--bp-->
 </head>
 <body>
-<a href="Index.html", class="home"><h1 class="home">Bruh.com</h1></a>
+<a href="Index.php" , class="home"><h1 class="home">Bruh.com</h1></a>
 <div class="center">
 
 
@@ -85,7 +85,7 @@
                     </script>
                     ";
                     $user=$_COOKIE['user'];
-                    echo $user;
+                    $_SESSION["user"]=$user;
 
 //
                 }
