@@ -76,17 +76,16 @@
                                 this.password=password;
                                 this.email=email;
                             }
-//                            SayName()
-//                            {
-//                                //console.log(this.username);
-//                                console.log(this.username,this.id,this.password,this.email);
-//                            }
+
                         }
 
                         let user=new User(".$i['ID'].",'".$i['Username']."','".$i['Password']."','".$i['Email']."');
                         let userString=JSON.stringify(user);
-                        
-                    </script>";
+                        document.cookie='user='+userString;
+                    </script>
+                    ";
+                    $user=$_COOKIE['user'];
+                    echo $user;
 
 //
                 }
