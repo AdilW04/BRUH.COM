@@ -69,17 +69,16 @@
                     "<script>
                         class User
                         {
-                            constructor(id,username,password,email)
+                            constructor(username,password,email)
                             {
-                                this.id=id;
+                                //this.id=id;
                                 this.username=username;
-                                this.password=password;
                                 this.email=email;
                             }
 
                         }
 
-                        let user=new User(".$i['ID'].",'".$i['Username']."','".$i['Password']."','".$i['Email']."');
+                        let user=new User('".$i['Username']."','".$i['Email']."');
                         let userString=JSON.stringify(user);
                         document.cookie='user='+userString;
                     </script>
