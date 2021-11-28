@@ -80,7 +80,7 @@
 
                         let user=new User('".$i['Username']."','".$i['Email']."');
                         let userString=JSON.stringify(user);
-                        document.cookie='user='+userString;
+                        window.location.href='Index.php?user='+user
                     </script>
                     ";
                     $user=$_COOKIE['user'];
