@@ -70,7 +70,7 @@
                     if ($usernametaken == false and $emailtaken == false) {
                         if ($_POST["password"] == $_POST["passwordconf"] and $_POST["email"] == $_POST["emailconf"]) {
                             echo "<script> clear()</script>";
-                            echo "<div class='center'><h1>Welcome to the gang " . $_POST["username"] . "!</h1></div>";
+                            echo "<div class='center'><h1>Welcome To BRUH.COM " . $_POST["username"] . "!</h1></div>";
                             $conn->query("INSERT INTO questionsdb.users(ID,Username,Password,Email) values(" . $result->num_rows . ",'" . $_POST["username"] . "','" . $_POST["password"] . "','" . $_POST["email"] . "')");
                             echo "<script>redirect()</script>";
                         } else {
