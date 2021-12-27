@@ -18,8 +18,15 @@
 </head>
 <body>
 <?php
-echo $_SESSION["user"];
+//echo isset($bruh);
+if (isset($_GET["user"]))
+{
+    echo $_GET["user"];
+}
+
+
 ?>
+
 <section class="blue">
     <div>
         <a href="Login.php"><h1 id="signIn">Sign in</h1></a>

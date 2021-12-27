@@ -1,4 +1,4 @@
-
+<?php session_start()?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +58,7 @@
             //list of user objects variables (records fields)
             //$userattr=[];
             echo "welcome back ". $username."!";
-            echo $_GET["player"];
+            echo $_GET["user"];
             foreach($result as $i)
             {
                 if ($i["Username"]==$username)
@@ -80,13 +80,9 @@
 
                         let user=new User('".$i['Username']."','".$i['Email']."');
                         let userString=JSON.stringify(user);
-                        window.location.href='Login.php?player='+userString;
+                        window.location.href='Index.php?user='+userString
                     </script>
                     ";
-
-
-
-
 //
                 }
 
