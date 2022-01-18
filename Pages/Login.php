@@ -58,7 +58,9 @@
             //list of user objects variables (records fields)
             //$userattr=[];
             echo "welcome back ". $username."!";
-            echo $_GET["user"];
+            if (isset($_GET["user"])) {
+                echo $_GET["user"];
+            }
             foreach($result as $i)
             {
                 if ($i["Username"]==$username)

@@ -17,18 +17,32 @@
     </style>
 </head>
 <body>
+<?php
+if (isset($_GET["user"]))
+{
+    $_SESSION["user"]=$_GET["user"];
+}
+if (isset($_GET["session"]))
+{
+    if (isset($_SESSION["user"]))
+    {
+        session_unset();
+        session_destroy();
+    }
+}
+?>
 
 
 
 <section class="blue">
     <?php
     //echo isset($bruh);
-    if (isset($_GET["user"]))
+    if (isset($_GET["user"]) or isset($_SESSION["user"]))
     {
-        echo "<a href='Index.php'><div> <h1 id= 'signIn'>Sign out</h1></div></a>";
+        echo "<a href='Index.php?session=false'><div> <h1 id= 'signIn'>Sign out</h1></div></a>";
     }
     else{
-        echo "    <div>
+        echo "<div>
         <a href='Login.php'><h1 id='signIn'>Sign in</h1></a>
     </div>";
     }
@@ -111,7 +125,7 @@
 </section>
 
 <section>
-    <a href="SiteInfo.html"><h2>Search For Questions</h2></a>
+    <a href="Search.php"><h2>Search For Questions</h2></a>
     <br>
     <p>Search for some questions to answer</p>
 
