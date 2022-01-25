@@ -1,4 +1,9 @@
 <?php session_start()?>
+<?php
+if (!isset($_SESSION["user"])){
+    header("Location:Login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

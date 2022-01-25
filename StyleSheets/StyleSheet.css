@@ -110,7 +110,11 @@ section
     fill: #272F3B;
 }
 form{
-    border-style: solid;
+    border-color: whitesmoke;
+    padding:8px;
+}
+#outputTags{
+    border-style:solid;
     border-color: whitesmoke;
     padding:8px;
 }

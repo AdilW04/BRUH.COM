@@ -1,3 +1,9 @@
+<?php session_start()?>
+<?php
+if (!isset($_SESSION["user"])){
+    header("Location:Login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +21,9 @@
     </style>
 </head>
 <body>
+
     <script src="../Scripts/Question.js"></script>
+    <script src="../Scripts/AddTag.js"></script>
     <a href="Index.php" , class="home"><h1 class="home">Bruh.com</h1></a>
     <div>
         <div>
@@ -28,10 +36,20 @@
             <form method="post",autocomplete="off">
                 <input type=text id="question" name="question"> < Question </input>
                 <input type=text id="answer" name="answer" > < Answer </input>
-                <input type="submit" name="submit" value="next">
 <!--                <button class="next" type="submit" name="submit" ></button>-->
+                <br>
+                <br>
+
+                <input type="text" id="tags"> < </input>
+                <input type="button" onclick="AddTag()" value="ADD TAG">
+                <br><br><br>
+                <p id="outputTags"> Tags: </p>
+
+                <br>
+                <input type="submit" name="submit" value="NEXT">
             </form>
             <?php
+            $dom= new DOMDocument();
             //fix for sql insert query not properly processing apostrophe as an actual character
             function apostropheCatastropheFix($string)
             {
@@ -53,6 +71,8 @@
             if(isset($_POST['submit']))
             {
                 echo"Submitted!";
+
+
                 //add the question and answer to database
                 $connection=new mysqli("localhost","root");
                 $question= $_POST["question"];
@@ -68,6 +88,7 @@
             }
 
             ?>
+
         </div>
     </div>
 </body>

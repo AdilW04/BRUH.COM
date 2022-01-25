@@ -1,3 +1,9 @@
+<?php session_start()?>
+<?php
+if (!isset($_SESSION["user"])){
+    header("Location:Login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +27,7 @@
 <a href="Index.php" , class="home"><h1 class="home">Bruh.com</h1></a>
 <div class="center">
     <?php
-    function GetAnswer($chosenQuestion)//chosen question ranging from index 1 to the num_rows (integer) eg: if chosen question=1, will pick the one with index 0
+    function GetAnswer($chosenQuestion) //chosen question ranging from index 1 to the num_rows (integer) eg: if chosen question=1, will pick the one with index 0
     {
         $question="";
         $answer="";
