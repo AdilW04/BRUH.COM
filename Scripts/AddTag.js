@@ -1,9 +1,29 @@
 let tags=new Array()
-class Tag{
+class Controller{
     constructor(){
-        this.questions=[];
 
     }
+}
+class Tag{
+    constructor(){
+        this.keywords=[];
+        this.name="";
+
+    }
+    Specify(question,Questions){
+        let QSplit=question.split(" ");
+        if (Questions.length==0)
+        {
+            for(let i=0; i<QSplit.length;i++){
+                Questions.append(QSplit[i]);
+            }
+        }
+        else
+        {
+            console.log("to be continued???");
+        }
+    }
+
 }
 function AddTag()
 {
