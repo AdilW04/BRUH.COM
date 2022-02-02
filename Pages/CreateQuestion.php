@@ -68,23 +68,39 @@ if (!isset($_SESSION["user"])){
                 return($string);
 
             }
+            if (isset ($_GET['question']))
+            {
+
+
+                $connection=new mysqli("localhost","root");
+                //insert question into database
+                $result=$connection->query("SELECT * FROM questionsdb.questions");
+                $nextid= ($result->num_rows);
+                $connection->query("INSERT INTO questions (ID,Question)VALUES (1,'bruh')");
+                echo $_GET['question'];
+                $connection->close();
+            }
             if(isset($_POST['submit']))
             {
+
                 echo"Submitted!";
 
 
                 //add the question and answer to database
-                $connection=new mysqli("localhost","root");
                 $question= $_POST["question"];
                 $answer=$_POST["answer"];
 
                 $question=apostropheCatastropheFix($question);
                 $answer=apostropheCatastropheFix($answer);
+                echo"<script>
+                let question=new Question('bruh', 'bruh2');
+                let questionstring=JSON.stringify(question);
+                window.location.href='CreateQuestion.php?question='+questionstring;
+                </script>";
 
-                $result=$connection->query("SELECT * FROM questionsdb.questions");
-                $nextid= ($result->num_rows);
-                $connection->query("INSERT INTO questionsdb.questions(ID,Question,Answer)VALUES (".$nextid.",'".$question."','".$answer."')");
-                $connection->close();
+
+
+
             }
 
             ?>

@@ -6,21 +6,13 @@ class Question
         this.question=question;
         this.answer=answer;
     }
-    OutputQuestion()
-    {
-        console.log(this.question);
-    }
-    OutputAnswer()
-    {
-        console.log(this.answer);
-    }
 }
-function SubmitQuestion()
-{
-    let question= new Question(document.getElementById("question").value,document.getElementById("answer").value);
-    question.OutputAnswer();
-    question.OutputQuestion();
-
-}
+// function SubmitQuestion()
+// {
+//     let question= new Question(document.getElementById("question").value,document.getElementById("answer").value);
+//     question.OutputAnswer();
+//     question.OutputQuestion();
+//
+// }
 
 
