@@ -40,12 +40,6 @@ if (!isset($_SESSION["user"])){
                 <br>
                 <br>
 
-                <input type="text" id="tags"> < </input>
-                <input type="button" onclick="AddTag()" value="ADD TAG">
-                <br><br><br>
-                <p id="outputTags"> Tags: </p>
-
-                <br>
                 <input type="submit" name="submit" value="NEXT">
             </form>
             <?php
@@ -70,7 +64,88 @@ if (!isset($_SESSION["user"])){
             }
             if(isset($_POST['submit']))
             {
+                class Question
+                {
+                    private $question="";
+                    private $answer="";
+
+                    function __construct($q,$a)
+                    {
+                        $this->question=$q;
+                        $this->answer=$a;
+                    }
+                    function GetKeyWords()
+                    {
+                        //split sentence
+                        $QuestionAnswer=$this->question." ".$this->answer;
+                        $keywords=array("");
+                        $notdone=true;
+                        $word=0;
+
+                            for($i=0;$i<strlen($QuestionAnswer);$i++) {
+                                if ($QuestionAnswer[$i] != " ") {
+                                    $keywords[$word] = $keywords[$word] . $QuestionAnswer[$i];
+
+                                } else {
+                                    $word = $word + 1;
+                                    array_push($keywords, "");
+                                }
+
+                            }
+                        return($keywords);
+
+
+                    }
+                }
+                //parse tag from db into tag object
+                class Tags
+                {
+                    private $name="";
+                    private $keywords="";
+                    private $idTags=0;
+                    function __construct($idTags,$name,$keywords)
+                {
+                    $this->name=$name;
+                    $this->keywords=$keywords;
+                    $this->idTags=$idTags;
+
+                }
+                    function UpdateTags($question){
+
+                    }
+                }
+                function FindTag($tagName)
+                {
+                    $connection=new mysqli("localhost","root");
+                    $tag=$connection->query("SELECT * FROM questionsdb.tags WHERE TagName='".$tagName."'");
+                    $numrows=$connection->query("SELECT * FROM questionsdb.tags")->num_rows;
+                    $connection->close();
+                    //if 'can't' find tag
+                    echo is_null($tag->fetch_assoc());
+                    if (is_null($tag->fetch_assoc())){
+                        $connection=new mysqli("localhost","root");                              //next ID,   Name of tag   empty space for keywords
+                        $connection->query("INSERT INTO questionsdb.tags(idTags, TagName, Keywords) VALUES(".$numrows.",'".$tagName."','"." "."') ");
+                        $connection->close();
+                    }
+
+
+
+                }
                 echo"Submitted!";
+                FindTag("ad
+                ");
+                FindTag("ad");
+                FindTag("ad");
+
+                $Q=new Question("what is this?", "no it isn't");
+
+//                $a=$Q->GetKeyWords();
+//                foreach($a as $i)
+//                {
+//                    echo $i.",";
+//                }
+
+
 
 
                 //add the question and answer to database
