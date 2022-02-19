@@ -89,20 +89,20 @@ if (!isset($_SESSION["user"])){
 
             </form>
             <?php
-            function UpdateTags($question, $tags)
+            function UpdateTags($question, $tag)
             {
+                //creates new keywords in the database if needed
                 $conn=new mysqli("localhost","root");
                 $res=$conn->query("SELECT Keywords FROM questionsdb.tags");
                 while ($row=$res->fetch_assoc())
                 {
                     if ($row["Keywords"]==null);
                     {
-                        echo ("null");
                         $keywords=array();
                         $split=$question->GetKeyWords();
                         foreach ($split as $i)
                         {
-                            echo ($i);
+
 
                             $conn=new mysqli("localhost","root");
                             $result=$conn->query("SELECT * FROM questionsdb.keywords");
@@ -129,8 +129,28 @@ if (!isset($_SESSION["user"])){
 
                         }
 
+
+
+
+
                     }
                 }
+                //form a sentence using the keyword ids
+                $idArray=array();
+                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+                $conn=new mysqli("localhost","root");
+                foreach($question->GetKeywords() as $i)
+                {
+
+                    $result=$conn->query("SELECT ID FROM questionsdb.keywords WHERE Name='".$i."'");
+                    $assoc=$result->fetch_assoc();
+                    array_push($idArray, $assoc["ID"]);
+                }
+                echo implode(",", $idArray);
+                $conn->query("UPDATE questionsdb.tags SET Keywords='".implode(",", $idArray)."' WHERE idTags=".$tag->GetID());
+                $conn->close();
+
+
 
             }
             $dom= new DOMDocument();
