@@ -1134,67 +1134,113 @@
     <user id="334" parent="1" name="root">
       <Host>localhost</Host>
     </user>
-    <table id="335" parent="6" name="questions"/>
-    <table id="336" parent="6" name="tags"/>
-    <table id="337" parent="6" name="users"/>
-    <column id="338" parent="335" name="ID">
+    <table id="335" parent="6" name="keywords"/>
+    <table id="336" parent="6" name="questions"/>
+    <table id="337" parent="6" name="relevancy"/>
+    <table id="338" parent="6" name="tags"/>
+    <table id="339" parent="6" name="users"/>
+    <column id="340" parent="335" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="339" parent="335" name="UserID">
+    <column id="341" parent="335" name="Name">
       <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-    </column>
-    <column id="340" parent="335" name="Question">
-      <Position>3</Position>
-      <DataType>varchar(2000)|0s</DataType>
-    </column>
-    <column id="341" parent="335" name="Answer">
-      <Position>4</Position>
-      <DataType>varchar(2000)|0s</DataType>
+      <DataType>varchar(45)|0s</DataType>
     </column>
     <key id="342" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="343" parent="336" name="idTags">
+    <column id="343" parent="336" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="344" parent="336" name="TagName">
+    <column id="344" parent="336" name="UserID">
       <Position>2</Position>
-      <DataType>varchar(100)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
     </column>
-    <column id="345" parent="336" name="Keywords">
+    <column id="345" parent="336" name="Question">
       <Position>3</Position>
       <DataType>varchar(2000)|0s</DataType>
     </column>
-    <key id="346" parent="336" name="PRIMARY">
+    <column id="346" parent="336" name="Answer">
+      <Position>4</Position>
+      <DataType>varchar(2000)|0s</DataType>
+    </column>
+    <column id="347" parent="336" name="UpVotes">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <column id="348" parent="336" name="TagIDs">
+      <Position>6</Position>
+      <DataType>varchar(2000)|0s</DataType>
+    </column>
+    <key id="349" parent="336" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="350" parent="337" name="ID">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="351" parent="337" name="KeywordID">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <column id="352" parent="337" name="TagID">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <column id="353" parent="337" name="Relevancy">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <key id="354" parent="337" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="355" parent="338" name="idTags">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="356" parent="338" name="TagName">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+    </column>
+    <column id="357" parent="338" name="Keywords">
+      <Position>3</Position>
+      <DataType>varchar(2000)|0s</DataType>
+    </column>
+    <key id="358" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idTags</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="347" parent="337" name="ID">
+    <column id="359" parent="339" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="348" parent="337" name="Username">
+    <column id="360" parent="339" name="Username">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="349" parent="337" name="Password">
+    <column id="361" parent="339" name="Password">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="350" parent="337" name="Email">
+    <column id="362" parent="339" name="Email">
       <Position>4</Position>
       <DataType>varchar(320)|0s</DataType>
     </column>
-    <key id="351" parent="337" name="PRIMARY">
+    <key id="363" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>

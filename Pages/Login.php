@@ -1,3 +1,4 @@
+<?php include '../PHP classes/User.php' ?>
 <?php session_start()?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,15 +38,38 @@
     </form>
     <p id="new">New to bruh.com? click <a href="Register.php" class="underline">here</a> to create an account!</p>
     <?php
+//    class User
+//    {
+//        private $userName="";
+//        private $ID=0;
+//        function __construct($id,$username){
+//            $this->userName=$username;
+//            $this->ID=$id;
+//        }
+//        function GetUser()
+//        {
+//            return($this->userName);
+//        }
+//        function GetID()
+//        {
+//            return($this->ID);
+//        }
+
+
+//    }
+
+
     if (isset($_POST["submit"])) {
         $success=false;
         $username="";
         $conn = new mysqli("localhost", "root");
         $result = $conn->query("SELECT ID,Username, Email, Password FROM questionsdb.users");
         $conn->close();
+
         foreach ($result as $i) {
             if (($_POST["username"] == $i["Username"] or $_POST["username"] == $i["Email"]) and $_POST["password"] == $i["Password"]) {
                 $success=true;
+                $user=new User($i["ID"],$i["Username"]);
                 $username=$i["Username"];
                 break;
             }
@@ -53,6 +77,7 @@
                 $success=false;
             }
         }
+
         if ($success)
         {
             //list of user objects variables (records fields)
@@ -61,34 +86,41 @@
             if (isset($_GET["user"])) {
                 echo $_GET["user"];
             }
-            foreach($result as $i)
-            {
-                if ($i["Username"]==$username)
+            $_SESSION["user"]=$user;
 
-                {
-                    //echo"bruh".$i["Username"]."yh";
-                    echo
-                    "<script>
-                        class User
-                        {
-                            constructor(username,password,email)
-                            {
-                                //this.id=id;
-                                this.username=username;
-                                this.email=email;
-                            }
 
-                        }
 
-                        let user=new User('".$i['Username']."','".$i['Email']."');
-                        let userString=JSON.stringify(user);
-                        window.location.href='Index.php?user='+userString
-                    </script>
-                    ";
+//            foreach($result as $i)
+//            {
+//                if ($i["Username"]==$username)
 //
-                }
-
-            }
+//                {
+//
+//
+//                    //echo"bruh".$i["Username"]."yh";
+//                    echo
+//                    "<script>
+//                        class User
+//                        {
+//                            constructor(username,password,email,id)
+//                            {
+//                                //this.id=id;
+//                                this.username=username;
+//                                this.email=email;
+//                                this.id=id;
+//                            }
+//
+//                        }
+//
+//                        let user=new User('".$i['Username']."','".$i['Email']."');
+//                        let userString=JSON.stringify(user);
+//                        window.location.href='Index.php?user='+userString
+//                    </script>
+//                    ";
+//
+//                }
+//
+//            }
 
         }
         else{
