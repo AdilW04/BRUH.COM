@@ -89,7 +89,7 @@ if (!isset($_SESSION["user"])){
 
             </form>
             <?php
-            function UpdateTags($question, $tag)
+            function AddKeyword($question)
             {
                 //creates new keywords in the database if needed
                 $conn=new mysqli("localhost","root");
@@ -122,7 +122,6 @@ if (!isset($_SESSION["user"])){
                             {
                                 $result2=$conn->query("SELECT * FROM questionsdb.keywords");
                                 $numrows=$result2->num_rows;
-                                echo("a");
                                 $conn->query("INSERT INTO questionsdb.keywords(ID, Name) VALUES(".($numrows+1).",'".$i."')");
                             }
                             $conn->close();
@@ -135,20 +134,73 @@ if (!isset($_SESSION["user"])){
 
                     }
                 }
-                //form a sentence using the keyword ids
-                $idArray=array();
-                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-                $conn=new mysqli("localhost","root");
-                foreach($question->GetKeywords() as $i)
-                {
+            }
+            function AddKeywordToTag($tag,$keyword)
+            {
+                $conn=new mysqli("localhost", "root");
+                $numrows=$conn->query("SELECT * FROM questionsdb.relevancy")->num_rows;
+                $conn->query("INSERT INTO questionsdb.relevancy(ID, KeywordID,TagID,Relevancy) VALUES(".($numrows+1).",".$keyword->GetID().",".$tag->GetID().",1)");
+            }
+            function UpdateTags($question, $tag)
+            {
+                AddKeyword($question);
 
-                    $result=$conn->query("SELECT ID FROM questionsdb.keywords WHERE Name='".$i."'");
-                    $assoc=$result->fetch_assoc();
-                    array_push($idArray, $assoc["ID"]);
-                }
-                echo implode(",", $idArray);
-                $conn->query("UPDATE questionsdb.tags SET Keywords='".implode(",", $idArray)."' WHERE idTags=".$tag->GetID());
+                //form a sentence using the keyword ids
+                $conn=new mysqli("localhost", "root");
+                $result= $conn->query("SELECT Keywords FROM questionsdb.tags WHERE TagName='".$tag->GetName()."'") or die($conn->error);;
+                $assoc=$result->fetch_assoc();
                 $conn->close();
+                if($assoc["Keywords"]==null)
+                {
+                    $idArray=array();
+                    $conn=new mysqli("localhost","root");
+                    foreach($question->GetKeywords() as $i)
+                    {
+
+                        $result=$conn->query("SELECT ID FROM questionsdb.keywords WHERE Name='".$i."'");
+                        $assoc=$result->fetch_assoc();
+                        array_push($idArray, $assoc["ID"]);
+
+                    }
+
+                    $conn->query("UPDATE questionsdb.tags SET Keywords='".implode(',', $idArray)."' WHERE idTags=".$tag->GetID());
+
+                    $assoc=$conn->query("SELECT * FROM questionsdb.tags WHERE idTags=".$tag->GetID())->fetch_assoc();
+                    $numrows=$conn->query("SELECT * FROM questionsdb.relevancy")->num_rows;
+
+                    foreach(explode(",",$assoc["Keywords"]) as $i)
+                    {
+                        $keyword=$conn->query("SELECT * FROM questionsdb.keywords WHERE ID=".$i)->fetch_assoc();
+                        AddKeywordToTag($tag,new Keywords($keyword["ID"],$keyword["Name"]));
+
+                    }
+                    $conn->close();
+
+
+
+                }
+                else
+                {
+                    //translates from numbers to names
+                    $nameArray= array();
+                    foreach(explode(",",$assoc["Keywords"]) as $i)
+                    {
+                        $conn=new mysqli("localhost", "root");
+                        $result= $conn->query("SELECT Name FROM questionsdb.keywords WHERE ID=".$i);
+                        $assoc=$result->fetch_assoc();
+                        array_push($nameArray,$assoc["Name"]);
+                    }
+                    foreach ($question->GetKeywords() as $i)
+                    {
+                        if(in_array($i, $nameArray))
+                        {
+                            //check if match already exists
+                        }
+
+
+                    }
+                }
+
 
 
 
@@ -324,7 +376,7 @@ if (!isset($_SESSION["user"])){
                 {
 
                     UpdateTags($questionobj,$i);
-                    $i->Update();
+                    //$i->Update();
                 }
 
 
