@@ -10,19 +10,22 @@ class Tags
     {
         $this->id=$id;
         $this->name=$name;
-
-        $keywordID=explode(",", $keywords);
-        $connection= new mysqli("localhost","root");
-        foreach ($keywordID as $i)
+        if ($keywords!="")
         {
-            $result=$connection->query("SELECT * FROM questionsdb.keywords WHERE ID=".$i);
-            if($result!=null)
+            $keywordID=explode(",", $keywords);
+            $connection= new mysqli("localhost","root");
+            foreach ($keywordID as $i)
             {
-                $name=$result->fetch_assoc();
-                $keyword=new Keywords(intval($i),$name["Name"]);
-                array_push($this->keywords, $keyword);
+                $result=$connection->query("SELECT * FROM questionsdb.keywords WHERE ID=".$i);
+                if($result!=null)
+                {
+                    $name=$result->fetch_assoc();
+                    $keyword=new Keywords(intval($i),$name["Name"]);
+                    array_push($this->keywords, $keyword);
+                }
             }
         }
+
 
         $this->relevancy;
     }

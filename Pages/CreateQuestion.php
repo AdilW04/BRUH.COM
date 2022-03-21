@@ -53,8 +53,10 @@ if (!isset($_SESSION["user"])){
                     $tags=recommendTags($_POST["question"],$_POST["answer"],$priority);
                     foreach ($tags as $i)
                     {
+
                         echo "<input type='checkbox' name='tag[]' id='".$i->GetID()."' value='".$i->GetName()."'></input> <label>".$i->GetName()."</label>";
                     }
+
                 }
                 if (isset($_POST["AddTag"]))
                 {
@@ -89,6 +91,7 @@ if (!isset($_SESSION["user"])){
 
             </form>
             <?php
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
             function AddKeyword($question)
             {
                 //creates new keywords in the database if needed
@@ -157,6 +160,7 @@ if (!isset($_SESSION["user"])){
                     foreach($question->GetKeywords() as $i)
                     {
 
+
                         $result=$conn->query("SELECT ID FROM questionsdb.keywords WHERE Name='".$i."'");
                         $assoc=$result->fetch_assoc();
                         array_push($idArray, $assoc["ID"]);
@@ -175,16 +179,18 @@ if (!isset($_SESSION["user"])){
 
                     }
                     $conn->close();
-
-
-
                 }
+
+
+
+
                 else
                 {
                     //translates from numbers to names
                     $nameArray= array();
                     foreach(explode(",",$assoc["Keywords"]) as $i)
                     {
+
                         $conn=new mysqli("localhost", "root");
                         $result= $conn->query("SELECT Name FROM questionsdb.keywords WHERE ID=".$i);
                         $assoc=$result->fetch_assoc();
@@ -194,7 +200,15 @@ if (!isset($_SESSION["user"])){
                     {
                         if(in_array($i, $nameArray))
                         {
-                            //check if match already exists
+                            $conn=new mysqli("localhost","root");
+                            $kAssoc=$conn->query("SELECT ID FROM questionsdb.keywords WHERE Name='".$i."'") or die ($conn->error);
+                            $keywordid=$kAssoc->fetch_assoc()["ID"];
+
+                            $rAssoc=$conn->query("SELECT ID FROM questionsdb.relevancy WHERE TagID=".$tag->GetID()." AND KeywordID=".$keywordid)->fetch_assoc();
+                            $relevancyid=$rAssoc["ID"];
+                            $result=$conn->query("UPDATE questionsdb.relevancy SET Relevancy=Relevancy+1 WHERE ID=".$relevancyid);
+                            $conn->close();
+
                         }
 
 
@@ -240,22 +254,28 @@ if (!isset($_SESSION["user"])){
                 }
                 foreach ($tags as $i)
                 {
+
+
                     foreach ($i->GetKeywords() as $j)
                     {
                         if (strpos($questionAnswer,$j->GetName()))
                         {
                             $relevancy=$i->GetRelevancy();
-                            $i->SetRelevancy($relevancy+=1);
+                            //extra relevancy from the tag relevancy table
+                            $conn=new mysqli("localhost","root");
+                            $result=$conn->query("SELECT Relevancy FROM questionsdb.relevancy WHERE KeywordID=".$j->GetID()." AND TagID=".$i->GetID()) or die($conn->error);
+                            $assoc=$result->fetch_assoc();
+                            $conn->close();
+
+                            $addedrelevancy=$assoc["Relevancy"];
+                            $i->SetRelevancy($relevancy+=$addedrelevancy);
 
                         }
                     }
 
                 }
                 uasort($tags, "relevancy");
-                if ($priority!=null)
-                {
-                    array_unshift($tags,$priority);
-                }
+
 
                 $top= array();
 
@@ -264,13 +284,42 @@ if (!isset($_SESSION["user"])){
                 {
 //                    echo $i;
 //                    echo $tags[$i]->GetName();
-                    array_push($top, $i);
-                    $counter+=1;
-                    if ($counter>=smallest($tags, 10))
+                    if ($priority!=null)
                     {
-                        break;
+                        if ($priority->GetID()==$i->GetID())
+                        {
+
+                        }
+                        else
+                        {
+                            array_push($top, $i);
+                            $counter+=1;
+                            if ($counter>=smallest($tags, 10-1))
+                            {
+                                break;
+                            }
+                        }
+
+
+
                     }
+                    else{
+                        array_push($top, $i);
+                        $counter+=1;
+                        if ($counter>=smallest($tags, 10-1))
+                        {
+                            break;
+                        }
+                    }
+
+
+
                 }
+                if ($priority!=null)
+                {
+                    array_unshift($top,$priority);
+                }
+
                 return $top;
             }
 
@@ -360,6 +409,7 @@ if (!isset($_SESSION["user"])){
                             $result2=$connection->query("SELECT * FROM questionsdb.tags WHERE TagName='".$i."'");
 
                             $assoc=$result2->fetch_assoc();
+
                             array_push($tags, new Tags($assoc["idTags"], $assoc["TagName"], $assoc["Keywords"]));
                             array_push($tagIDs, $assoc["idTags"]);
                         }
@@ -369,8 +419,8 @@ if (!isset($_SESSION["user"])){
 
 
 
-
-                $questionobj=new Question($_POST["question"],$_POST["answer"],implode($tagIDs));
+                //echo $tagIDs;
+                $questionobj=new Question($_POST["question"],$_POST["answer"],implode(",",$tagIDs));
 
                 foreach ($tags as $i)
                 {
@@ -395,7 +445,12 @@ if (!isset($_SESSION["user"])){
 
                 $result=$connection->query("SELECT * FROM questionsdb.questions");
                 $nextid= ($result->num_rows);
-                //$connection->query("INSERT INTO questionsdb.questions(ID,UserID,Question,Answer,TagIDs)VALUES (".$nextid.",".$_SESSION["user"]->GetID().",'".$question."','".$answer."','".implode(",",$questionobj->GetTagsIDs())."')");
+                foreach($questionobj->GetTagsIDs() as $i)
+                {
+                    echo $i."<br>";
+                }
+                echo implode(",",$questionobj->GetTagsIDs());
+                $connection->query("INSERT INTO questionsdb.questions(ID,UserID,Question,Answer,TagIDs)VALUES (".$nextid.",".$questionobj->GetUser()->GetID().",'".$question."','".$answer."','".implode(",",$questionobj->GetTagsIDs())."')");
                 $connection->close();
                 echo"Submitted!";
             }

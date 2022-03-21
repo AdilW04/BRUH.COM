@@ -5,27 +5,39 @@ class Question
 {
     private $question;
     private $answer;
-    private $tags;
+    private $tags=array();
+    private $user;
 
     function __construct($q,$a,$t)
     {
         $this->question=$q;
         $this->answer=$a;
+        $this->user=$_SESSION["user"];
+        echo($t);
 
         $tagsID=explode(",", $t);
         $connection= new mysqli("localhost","root");
-        foreach ($tagsID as $i)
+        if ($t!=null)
         {
-            $result=$connection->query("SELECT * FROM questionsdb.tags WHERE ID=".$i);
-            if($result!=null)
+            foreach ($tagsID as $i)
             {
-                $assoc=$result->fetch_assoc();
-                $tag=new Tags(intval($i),$assoc["Name"],$assoc["Keywords"]);
-                array_push($this->tags, $tag);
+
+                $result=$connection->query("SELECT * FROM questionsdb.tags WHERE idTags=".$i);
+                if($result!=null)
+                {
+                    $assoc=$result->fetch_assoc();
+                    $tag=new Tags(intval($i),$assoc["TagName"],$assoc["Keywords"]);
+                    array_push($this->tags, $tag);
+                }
             }
         }
-
     }
+
+
+
+
+
+
     //fix for sql insert query not properly processing apostrophe as an actual character
     function apostropheCatastropheFix($string)
     {
@@ -50,7 +62,7 @@ class Question
         $tagsIDs=array();
         foreach($this->tags as $i)
         {
-            array_push($tagsIDs,$i->id);
+            array_push($tagsIDs,$i->GetId());
         }
         $question=$this->apostropheCatastropheFix($this->question);
         $answer=$this->apostropheCatastropheFix($this->answer);
@@ -61,17 +73,17 @@ class Question
     function GetTagsIds()
     {
         $tagsIDs=array();
-        echo($this->tags[0]->GetName());
         foreach($this->tags as $i)
         {
-            array_push($tagsIDs,$i->id);
+            echo "bruh".$i->GetID();
+            array_push($tagsIDs,$i->GetID());
         }
         return $tagsIDs;
     }
-    function GetQuestion(){return $this->Question;}
-    function GetAnswer(){return $this->Answer;}
+    function GetQuestion(){return $this->question;}
+    function GetAnswer(){return $this->answer;}
     function GetTags(){return $this->tags;}
-
+    function GetUser(){return $this->user;}
     function GetKeyWords()
     {
         //split sentence

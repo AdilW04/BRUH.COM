@@ -11,9 +11,14 @@ function CheckAnswer()
     {
         document.getElementById("actualAnswer").innerHTML=":( WRONG!";
     }
-    let a=location.reload;
-    setTimeout(reload,750);
+    // if( document.getElementById("upvote").checked)
+    // {
+    //     openDatabase()
+    // }
+    // let a=location.reload;
+    // setTimeout(reload,750);
     //location.reload();
+
 }
 function reload()
 {

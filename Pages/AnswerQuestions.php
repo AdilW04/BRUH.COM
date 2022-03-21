@@ -49,15 +49,33 @@ if (!isset($_SESSION["user"])){
     $result=$conn->query("SELECT * FROM questionsdb.questions");
     $numrows=$result->num_rows;
     $conn->close();
-    $answer=GetAnswer(rand(1,$numrows));
+    $id=rand(1,$numrows);
+    $answer=GetAnswer($id);
     echo '<p name="'.$answer.'" id="actualAnswer"> : |</p>';
 
+
+
+    if (isset($_POST['submit2']))
+    {
+        if ($_POST["upvote"]=="on")
+        {
+            $conn=new mysqli("localhost","root");
+            $conn->query("UPDATE questionsdb.questions SET UpVotes=UpVotes+1 WHERE ID=".$id);
+        }
+        header("url=answerQuestions.php");
+
+    }
     ?>
     <br>
-    <form action ="javascript:void",method="post">
+    <form method="post">
         <input name="answer" id="answer"> < Answer </input>
-        <input type="button" onclick="CheckAnswer()" name="submit", value="Submit Answer">
+
+        <input type="button" onclick="CheckAnswer()" name="submit" value="Check Answer">
+        <input name="upvote" id="upvote" type="checkbox"> < Upvote?
+        <input name="submit2" type="submit" value="NEXT">
     </form>
+
+
 
 </div>
 </body>
