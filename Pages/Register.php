@@ -53,19 +53,34 @@
                 $result=$conn->query("SELECT Email, Username FROM questionsdb.users");
                 $emailtaken=false;
                 $usernametaken=false;
-                if (filter_var($_POST["email"],FILTER_VALIDATE_EMAIL)==true and checkdnsrr(substr($_POST["email"],strpos($_POST["email"],"@")+1))==true) {
+                //check if email is part of a domain that actually exists
+                if ($_POST["email"]!="" AND filter_var($_POST["email"],FILTER_VALIDATE_EMAIL)==true and checkdnsrr(substr($_POST["email"],strpos($_POST["email"],"@")+1))==true) {
                     for ($i = 0; $i < $result->num_rows; $i++) {
                         $assoc = $result->fetch_assoc();
                         //echo($assoc["Username"]);
+                        //check if username already exists
                         if ($assoc["Username"] == $_POST["username"]) {
                             echo "username already taken";
                             $usernametaken = true;
                         }
+                        elseif ($_POST["username"]==""AND $usernametaken==false)
+                        {
+                            echo "please enter a username";
+                            $usernametaken = true;
+                        }
                         echo "<br>";
+                        //check if email already exists
                         if ($assoc["Email"] == $_POST["email"]) {
                             echo "email already in use";
                             $emailtaken = true;
                         }
+
+                    }
+                    if ($_POST["password"]=="")
+                    {
+                        echo "please enter a password";
+                        $usernametaken=true;
+                        //prevents progression in registration even though username may have not acually been taken
                     }
                     if ($usernametaken == false and $emailtaken == false) {
                         if ($_POST["password"] == $_POST["passwordconf"] and $_POST["email"] == $_POST["emailconf"]) {
@@ -73,6 +88,7 @@
                             echo "<div class='center'><h1>Welcome To BRUH.COM " . $_POST["username"] . "!</h1></div>";
                             $conn->query("INSERT INTO questionsdb.users(ID,Username,Password,Email) values(" . $result->num_rows . ",'" . $_POST["username"] . "','" . $_POST["password"] . "','" . $_POST["email"] . "')");
                             echo "<script>redirect()</script>";
+                            //adds user to database if the password matches with the confirm password and the same with email
                         } else {
                             echo "password or email does not match";
                         }

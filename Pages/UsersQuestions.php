@@ -27,7 +27,9 @@ if (!isset($_SESSION["user"]))
 <body>
 <a href="Index.php" , class="home"><h1 class="home">Bruh.com</h1></a>
 <div class="center">
+
 <?php
+//creates a html table that gets populated with php variables taken from the questions table
 $connection=new mysqli("localhost","root");
 $result=$connection->query("SELECT Question, Answer, UserID FROM questionsdb.questions WHERE UserID=".$_SESSION["user"]->GetID());
 $connection->close();

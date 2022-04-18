@@ -48,6 +48,7 @@ if (!isset($_SESSION["user"])){
                 <?php
                 function ShowTopTags($priority=null)
                 {
+                    //outputs the list of tags from recommend tags() in the form of html checkboxes
 
 
                     $tags=recommendTags($_POST["question"],$_POST["answer"],$priority);
@@ -58,6 +59,8 @@ if (!isset($_SESSION["user"])){
                     }
 
                 }
+
+                //adds the new tag entered to the front of the list by passing a priority tag into the showtop tags function
                 if (isset($_POST["AddTag"]))
                 {
 
@@ -72,8 +75,10 @@ if (!isset($_SESSION["user"])){
 
 
                 }
-                if (isset($_POST["tagButton"]) or isset($_POST["AddTag"]))
+
+                if ((isset($_POST["tagButton"])AND $_POST["question"]!=""AND $_POST["answer"]!="") or isset($_POST["AddTag"]))
                 {
+                    //shows the list of tags when you click tagify
 
                     if (!isset($_POST["AddTag"]))
                     {
@@ -86,6 +91,10 @@ if (!isset($_SESSION["user"])){
                     echo "<input type='submit' name='submit' value='Submit'>";
 
                 }
+                elseif ((isset($_POST["tagButton"])) or isset($_POST["AddTag"]))
+                {
+                    echo "you need to type something in!!!";
+                }
 
                 ?>
 
@@ -94,7 +103,7 @@ if (!isset($_SESSION["user"])){
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
             function AddKeyword($question)
             {
-                //creates new keywords in the database if needed
+                //first it creates new keywords in the database if needed
                 $conn=new mysqli("localhost","root");
                 $res=$conn->query("SELECT Keywords FROM questionsdb.tags");
                 while ($row=$res->fetch_assoc())
@@ -113,7 +122,7 @@ if (!isset($_SESSION["user"])){
                             while($row2=$result->fetch_assoc())
                             {
 
-                                if ($row2["Name"]==$i)
+                                if ($row2["Name"]==$i)//checks if the keyword is new or not
                                 {
                                     $new=false;
                                     break;
@@ -125,7 +134,7 @@ if (!isset($_SESSION["user"])){
                             {
                                 $result2=$conn->query("SELECT * FROM questionsdb.keywords");
                                 $numrows=$result2->num_rows;
-                                $conn->query("INSERT INTO questionsdb.keywords(ID, Name) VALUES(".($numrows+1).",'".$i."')");
+                                $conn->query("INSERT INTO questionsdb.keywords(ID, Name) VALUES(".($numrows+1).",'".$i."')");//adding the new keyword tot he database
                             }
                             $conn->close();
 
@@ -138,12 +147,16 @@ if (!isset($_SESSION["user"])){
                     }
                 }
             }
+            //simply updates the database by adding the keyword to the tags keywords field
             function AddKeywordToTag($tag,$keyword)
             {
                 $conn=new mysqli("localhost", "root");
                 $numrows=$conn->query("SELECT * FROM questionsdb.relevancy")->num_rows;
                 $conn->query("INSERT INTO questionsdb.relevancy(ID, KeywordID,TagID,Relevancy) VALUES(".($numrows+1).",".$keyword->GetID().",".$tag->GetID().",1)");
             }
+
+            //function that gets the tag selected by the user, and the question the user has submitted and updates the keywords list of the tag
+
             function UpdateTags($question, $tag)
             {
                 AddKeyword($question);
@@ -153,6 +166,7 @@ if (!isset($_SESSION["user"])){
                 $result= $conn->query("SELECT Keywords FROM questionsdb.tags WHERE TagName='".$tag->GetName()."'") or die($conn->error);;
                 $assoc=$result->fetch_assoc();
                 $conn->close();
+                // if that tag has no keywords yet then it just adds the entire quesion to the keywords list
                 if($assoc["Keywords"]==null)
                 {
                     $idArray=array();
@@ -196,6 +210,7 @@ if (!isset($_SESSION["user"])){
                         $assoc=$result->fetch_assoc();
                         array_push($nameArray,$assoc["Name"]);
                     }
+                    //compares each element of the keywords list the question and adds 1 if there is a match
                     foreach ($question->GetKeywords() as $i)
                     {
                         if(in_array($i, $nameArray))
@@ -220,6 +235,7 @@ if (!isset($_SESSION["user"])){
 
             }
             $dom= new DOMDocument();
+            //function to return the smallest out of two numerical inputs
             function smallest($array, $value)
             {
                 if (sizeof($array)<$value)
@@ -230,6 +246,7 @@ if (!isset($_SESSION["user"])){
                     return $value;
                 }
             }
+            //adds a new tag to the database
             function AddTag($tagName)
             {
                 $connection=new mysqli("localhost","root");//next ID,   Name of tag   empty space for keywords
@@ -237,10 +254,12 @@ if (!isset($_SESSION["user"])){
                 $connection->query("INSERT INTO questionsdb.tags(idTags, TagName) VALUES(".$numrows.",'".$tagName."') ");
                 $connection->close();
             }
+            //function allows me to use uasort to compare based on the tags relevancy when sorting them
             function relevancy($a,$b)
             {
                 return $b->GetRelevancy()-$a->GetRelevancy();
             }
+            // function that cleverly recommends the top 10 tags that are related to the question
             function recommendTags($question, $answer,$priority=null)
             {
                 $questionAnswer=$question." ".$answer;
@@ -248,6 +267,7 @@ if (!isset($_SESSION["user"])){
                 $result=$connection->query(" SELECT * FROM questionsdb.tags");
                 $connection->close();
                 $tags=array();
+                //populates array with a new tag object for every tagg in the database
                 while ($row=$result->fetch_assoc())
                 {
                     array_push($tags, new Tags($row["idTags"], $row["TagName"], $row["Keywords"]));
@@ -269,16 +289,18 @@ if (!isset($_SESSION["user"])){
 
                             $addedrelevancy=$assoc["Relevancy"];
                             $i->SetRelevancy($relevancy+=$addedrelevancy);
+                            //increases the relevancy of that tag to the question based on the amount of relevancy each keyword that is also in the question added together has
 
                         }
                     }
 
                 }
+                //sorts them based on the relevancy function i made earlier
                 uasort($tags, "relevancy");
 
 
                 $top= array();
-
+                //limits the list to only the top 10
                 $counter=0;
                 foreach ($tags as $i)
                 {
@@ -315,6 +337,7 @@ if (!isset($_SESSION["user"])){
 
 
                 }
+                //if the user adds a new tag, it will be pushed to the front of the list here
                 if ($priority!=null)
                 {
                     array_unshift($top,$priority);
@@ -343,6 +366,7 @@ if (!isset($_SESSION["user"])){
 //                return($string);
 //
 //            }
+            //returns a tag on the database from the name
             function FindTag($tagName)
             {
                 $connection=new mysqli("localhost","root");
@@ -392,6 +416,8 @@ if (!isset($_SESSION["user"])){
 //                    $conn->close();
 //                }
                 //get the checked boxes as objects
+
+
                 $connection=new mysqli("localhost", "root");
                 $result=$connection->query("SELECT * FROM questionsdb.tags");
                 $connection->close();
@@ -404,6 +430,7 @@ if (!isset($_SESSION["user"])){
                     {
                         foreach($_POST["tag"] as $i)
                         {
+                            //for every checked checkbox, add it to the array of tags and tag ids
                             $connection = new mysqli("localhost", "root");
 
                             $result2=$connection->query("SELECT * FROM questionsdb.tags WHERE TagName='".$i."'");
@@ -420,6 +447,7 @@ if (!isset($_SESSION["user"])){
 
 
                 //echo $tagIDs;
+                //creates new question object where its tags are the ones that were selected by the user
                 $questionobj=new Question($_POST["question"],$_POST["answer"],implode(",",$tagIDs));
 
                 foreach ($tags as $i)
@@ -442,17 +470,20 @@ if (!isset($_SESSION["user"])){
 
                 $question=$questionobj->apostropheCatastropheFix($question);
                 $answer=$questionobj->apostropheCatastropheFix($answer);
-
+//              finalises submission by adding everything to the database
                 $result=$connection->query("SELECT * FROM questionsdb.questions");
                 $nextid= ($result->num_rows);
-                foreach($questionobj->GetTagsIDs() as $i)
-                {
-                    echo $i."<br>";
-                }
-                echo implode(",",$questionobj->GetTagsIDs());
+//                foreach($questionobj->GetTagsIDs() as $i)
+//                {
+//                    echo $i."<br>";
+//                }
+//                echo implode(",",$questionobj->GetTagsIDs());
                 $connection->query("INSERT INTO questionsdb.questions(ID,UserID,Question,Answer,TagIDs)VALUES (".$nextid.",".$questionobj->GetUser()->GetID().",'".$question."','".$answer."','".implode(",",$questionobj->GetTagsIDs())."')");
                 $connection->close();
                 echo"Submitted!";
+
+
+
             }
 
             ?>

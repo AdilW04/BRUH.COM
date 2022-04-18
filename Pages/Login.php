@@ -65,18 +65,27 @@
         $conn = new mysqli("localhost", "root");
         $result = $conn->query("SELECT ID,Username, Email, Password FROM questionsdb.users");
         $conn->close();
-
+    if ($_POST["username"]!="" AND $_POST["password"]!="") {
         foreach ($result as $i) {
+            //checks if everything matches
+
             if (($_POST["username"] == $i["Username"] or $_POST["username"] == $i["Email"]) and $_POST["password"] == $i["Password"]) {
-                $success=true;
-                $user=new User($i["ID"],$i["Username"]);
-                $username=$i["Username"];
+                $success = true;
+                $user = new User($i["ID"], $i["Username"]);
+                $username = $i["Username"];
+                //creates new user object
                 break;
+            } else {
+                $success = false;
             }
-            else {
-                $success=false;
-            }
+
+
         }
+    }
+    else
+    {
+        echo "please fill in all the fields properly";
+    }
 
         if ($success)
         {
@@ -87,45 +96,16 @@
                 echo $_GET["user"];
             }
             $_SESSION["user"]=$user;
+            //updates the session with user variable
 
 
 
-//            foreach($result as $i)
-//            {
-//                if ($i["Username"]==$username)
-//
-//                {
-//
-//
-//                    //echo"bruh".$i["Username"]."yh";
-//                    echo
-//                    "<script>
-//                        class User
-//                        {
-//                            constructor(username,password,email,id)
-//                            {
-//                                //this.id=id;
-//                                this.username=username;
-//                                this.email=email;
-//                                this.id=id;
-//                            }
-//
-//                        }
-//
-//                        let user=new User('".$i['Username']."','".$i['Email']."');
-//                        let userString=JSON.stringify(user);
-//                        window.location.href='Index.php?user='+userString
-//                    </script>
-//                    ";
-//
-//                }
-//
-//            }
 
         }
-        else{
+        elseif ($success==false AND $_POST["username"]!="" AND $_POST["password"]!="" ){
             echo "username or password is incorrect";// show password requirements
         }
+
     }
 
 

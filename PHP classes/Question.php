@@ -13,7 +13,6 @@ class Question
         $this->question=$q;
         $this->answer=$a;
         $this->user=$_SESSION["user"];
-        echo($t);
 
         $tagsID=explode(",", $t);
         $connection= new mysqli("localhost","root");
@@ -41,6 +40,7 @@ class Question
     //fix for sql insert query not properly processing apostrophe as an actual character
     function apostropheCatastropheFix($string)
     {
+        //adds a backslash right before where there is an apostrophe
         $problemchildren=[];
         for($i = 0; $i < strlen($string); $i++)
         {
@@ -56,8 +56,10 @@ class Question
         return($string);
 
     }
+
     function Update()
     {
+        //simply updates the objects corresponding record on the database using the objects attributes
         $connection= new mysqli("localhost", "root");
         $tagsIDs=array();
         foreach($this->tags as $i)
@@ -72,10 +74,10 @@ class Question
     }
     function GetTagsIds()
     {
+        //returns a list of tags IDs
         $tagsIDs=array();
         foreach($this->tags as $i)
         {
-            echo "bruh".$i->GetID();
             array_push($tagsIDs,$i->GetID());
         }
         return $tagsIDs;
@@ -86,7 +88,7 @@ class Question
     function GetUser(){return $this->user;}
     function GetKeyWords()
     {
-        //split sentence
+        //manually split sentence and then returns the sentence split into a list
         $QuestionAnswer=$this->question." ".$this->answer;
         $keywords=array("");
         $notdone=true;

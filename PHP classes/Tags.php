@@ -10,6 +10,7 @@ class Tags
     {
         $this->id=$id;
         $this->name=$name;
+        //converts keyword string(currently a string of numbers seperated by a comma) into actual keyword objects
         if ($keywords!="")
         {
             $keywordID=explode(",", $keywords);
@@ -31,6 +32,7 @@ class Tags
     }
     function Update()
     {
+        //updates the database using the attributes of the tags object as a guide
         $connection= new mysqli("localhost", "root");
         $keywordIDs=array();
         foreach($this->keywords as $i)

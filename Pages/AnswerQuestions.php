@@ -29,6 +29,7 @@ if (!isset($_SESSION["user"])){
     <?php
     function GetAnswer($chosenQuestion) //chosen question ranging from index 1 to the num_rows (integer) eg: if chosen question=1, will pick the one with index 0
     {
+        //searches the database for the question and answer of the question id the function gets as a parameter
         $question="";
         $answer="";
         $chosenQuestion=$chosenQuestion-1;
@@ -45,16 +46,18 @@ if (!isset($_SESSION["user"])){
     }
 
     //get numrows
+    //
     $conn=new mysqli("localhost","root");
     $result=$conn->query("SELECT * FROM questionsdb.questions");
     $numrows=$result->num_rows;
     $conn->close();
     $id=rand(1,$numrows);
     $answer=GetAnswer($id);
-    echo '<p name="'.$answer.'" id="actualAnswer"> : |</p>';
+
+    echo '<p name="'.$answer.'" id="actualAnswer"> : |</p>';//output form designed to be changed by the javascript code
 
 
-
+//checks if upvote is checked and adds +1 to the upvotes field in the database
     if (isset($_POST['submit2']))
     {
         if ($_POST["upvote"]=="on")
